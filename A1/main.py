@@ -93,7 +93,7 @@ for k in range(K):
 T_comb = (process_time() - t)/K
 DF = pd.read_pickle("Performance.pkl")                                                
 DF["Combined"] = COMB
-DF.to_pickle("Performance.pkl")                    # save results
+DF.to_csv("Performance.csv", index=False)                    # save results
 CT = load(open("ComputingTime.p","rb"))
 CT.append(T_comb)
 dump(CT, open("ComputingTime.p","wb"))             # save average computing time
@@ -121,7 +121,7 @@ for lbd in penalty:
     H[lbd] = lst  
 H = pd.DataFrame(H,index=[r"$\xi$ = "+str(ele) for ele in num_iter])
 H.columns = [r"$\lambda$ = "+str(ele) for ele in penalty]
-H.to_pickle("Hyperparameters.pkl")  # save results
+H.to_csv("Hyperparameters.csv", index=False)  # save results
 
 
 
@@ -137,4 +137,4 @@ AVERAGE["RMSE Test"] = [b.RMSE for a,b in DF.loc["Average",]][-3:]
 AVERAGE["MAE Training"] = [a.MAE for a,b in DF.loc["Average",]][-3:]
 AVERAGE["MAE Test"] = [b.MAE for a,b in DF.loc["Average",]][-3:]
 AVERAGE = pd.DataFrame(AVERAGE, index=DF.columns[-3:]).transpose()
-AVERAGE.to_pickle("AVERAGE.pkl")
+AVERAGE.to_csv("AVERAGE.csv", index=False)
