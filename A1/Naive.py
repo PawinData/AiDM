@@ -121,7 +121,7 @@ def Naive_D(TRAIN, TEST):
     
     
 # visualize results of errors organized in dataframe DF
-def compare_vis(DF, title=None, FigSize=(15,8), MarkerSize=10):
+def compare_vis(DF, title=None, display=True, FigSize=(15,8), MarkerSize=10):
 
     fig,ax = plt.subplots(figsize=FigSize)
 
@@ -158,7 +158,8 @@ def compare_vis(DF, title=None, FigSize=(15,8), MarkerSize=10):
     if title is not None:
         plt.savefig(title)
    
-    plt.show()
+    if display:
+        plt.show()
 
 
 

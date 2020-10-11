@@ -52,7 +52,7 @@ Mix = list()
 for k in range(K):
     Mix.append(Mix_Averages(M[k], DATA.loc[Subsets[k],:]))
 DF["Mixed"] = Mix
-compare_vis(DF, title="MixedAverages.eps")                     # save comparison results
+DF.to_pickle('mixedaverages.pkl')
 print("An extension of Naive D model done.")
 
 
@@ -93,12 +93,13 @@ for k in range(K):
 T_comb = (process_time() - t)/K
 DF = pd.read_pickle("Performance.pkl")                                                
 DF["Combined"] = COMB
-DF.to_csv("Performance.csv", index=False)                    # save results
+DF.to_pickle("Performance.pkl")                    # save results
 CT = load(open("ComputingTime.p","rb"))
 CT.append(T_comb)
 dump(CT, open("ComputingTime.p","wb"))             # save average computing time
+compare_vis(DF, title="Performance.png", display=False)
 print("Matrix Factorization combined with Regularization and Naive Averages done.")
-compare_vis(DF, title="Performance.eps")
+
 
 
 
@@ -122,6 +123,7 @@ for lbd in penalty:
 H = pd.DataFrame(H,index=[r"$\xi$ = "+str(ele) for ele in num_iter])
 H.columns = [r"$\lambda$ = "+str(ele) for ele in penalty]
 H.to_csv("Hyperparameters.csv", index=False)  # save results
+print("Grid search of lambda and xi done.")
 
 
 
@@ -129,6 +131,7 @@ H.to_csv("Hyperparameters.csv", index=False)  # save results
 # Compare Performance
 
 DF = add_avg(pd.read_pickle("Performance.pkl"))  # add a row of average scores of each approach to the dataframe
+DF.to_csv("Performance.csv", index=False) 
 
 AVERAGE = dict()
 AVERAGE["Computing Time"] = load(open("ComputingTime.p","rb"))
@@ -138,3 +141,10 @@ AVERAGE["MAE Training"] = [a.MAE for a,b in DF.loc["Average",]][-3:]
 AVERAGE["MAE Test"] = [b.MAE for a,b in DF.loc["Average",]][-3:]
 AVERAGE = pd.DataFrame(AVERAGE, index=DF.columns[-3:]).transpose()
 AVERAGE.to_csv("AVERAGE.csv", index=False)
+
+
+
+# Visualize
+
+compare_vis(pd.read_pickle("mixedaverages.pkl"), title="MixedAverages.png", display=False)     # save comparison results
+
