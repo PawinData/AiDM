@@ -13,7 +13,7 @@ for k in range(K-1):
     Subsets[k] = list(np.random.choice(pool, int(N/K)))
     pool = [i for i in pool if not i in Subsets[k]]
 Subsets[K-1] = pool
-dump(data, open("rowID_split.p","wb"))   # save results
+dump(Subsets, open("rowID_split.p","wb"))   # save results
 
 # generate utility matrix from raw dataframe
 def generate(data, blank=np.nan):
